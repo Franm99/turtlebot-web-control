@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>Turtlebot Controller</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- scripts for Roslibjs -->
+    <script type="text/javascript" src="http://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
+    <script type="text/javascript" src="http://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+</head>
+
+
+<body style="background-color: beige;">
+    <h1>Robots Móviles Autónomos - SIU039</h1>
+
+    <div class="row">
+        <div class="column">
+
+            <!-- controls  -->
+            <p style="text-align: center;"><b>Controls</b></p>
+            <div class="btn-row" style="text-align: center;">
+                <button id="forward_left"   onclick="forward_left()"   >&#8598</button>
+                <button id="forward"        onclick="forward()"        >&#8593</button>
+                <button id="forward_right"  onclick="forward_right()"  >&#8599</button>
+            </div>
+            <div class="btn-row" style="text-align: center;">
+                <button id="turnright"      onclick="turnright()"     >&#8635</button>
+                <button id="stop"           onclick="stop()"          >&#9646&#9646</button>
+                <button id="turnleft"       onclick="turnleft()"      >&#8634</button>
+            </div>
+            <div class="btn-row" style="text-align: center;">
+                <button id="backward_left"  onclick="backward_left()" >&#8601</button>
+                <button id="backward"       onclick="backward()"      >&#8595</button>
+                <button id="backward_right" onclick="backward_right()">&#8600</button>
+            </div>
+
+            <p style="text-align: center;"><b>Velocity percentage</b></p>
+            <div>
+                <input type="range" min="0" max="200" value="0"
+                class="slider" id="vel_pctg"
+                onchange="get_pctg()" oninput="get_pctg()">
+            </div>
+            <p id="pctg_label" style="text-align: center";> 100 %</p>
+        </div>
+
+        <div class="column2" style="background-color:#aaa;">
+            <p style="text-align: center;">
+                <b>Turtlebot image</b>
+                <img id="open_info" src="src/informacion.png" width=18 onclick="get_info()"
+                style="cursor: pointer;"> 
+            </p>
+            <p style="text-align: center;">Topic: <span id="topic_name">name</span></p>
+            <img src="http://0.0.0.0:8080/stream?topic=/camera/color/image_raw&quality=90&default_transport=compressed"
+            width=320 alt="Turtlebot image">
+            <!-- <img src="src/paloma.jpeg" width=320 alt="Turtlebot image"> -->
+        </div>
+    </div>
+
+    <!-- Pop-up help window -->
+    <div id="info" class="modal">
+        <!-- Info content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>To open turtlebot...</h2>
+            <ol>
+                <li>Open a new terminal. Export the direction and port of your turtlebot to ROS, 
+                    as well as your own IP:<br>
+<pre class="code">
+    $ export ROS_MASTER_URI=http://&#60turtlebot_ip&#62:&#60port&#62
+    $ export ROS_IP=&#60your_ip&#62 
+</pre>
+                </li>
+                <li>In the same terminal, launch web_video_server ROS package:<br>
+<pre class="code">
+    $ rosrun web_video_server web_video_server
+</pre>
+                </li>
+                <li>
+                    Access to the following url on your web browser:<br>
+                    <a href="http://0.0.0.0:8080/" style="text-align: center;">
+                        <ins>http://0.0.0.0:8080/</ins>
+                    </a>
+                </li>
+                <li>
+                    Select the image topic to show (it must be the same as the
+                    url specified in the html file.)<br>
+                    <ul>
+                        <li>/camera/rgb/image_rect_color</li>
+                        <li>/camera/depth_registered/image</li>
+                    </ul>
+                </li>
+                <li>
+                    Optionally, modify image parameters (quality must be low to 
+                    achieve a fluent streaming). For example:<br>
+                    <a href="http://0.0.0.0:8080/stream?topic=/camera/rgb/image_rect_color&quality=10" style="text-align: center;">
+                        <ins>http://0.0.0.0:8080/stream?topic=/camera/rgb/image_rect_color&quality=10</ins>
+                </li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- My scripts -->
+    <script src="gui.js"></script>
+    <script src="control.js"></script>
+</body>
