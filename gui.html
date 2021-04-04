@@ -6,6 +6,9 @@
     <title>Turtlebot Controller</title>
     <link rel="stylesheet" href="styles.css">
 
+    <!-- script for jQuery -->
+    <script src="src/jquery-3.6.0.js"></script>
+
     <!-- scripts for Roslibjs -->
     <script type="text/javascript" src="http://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
     <script type="text/javascript" src="http://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
@@ -16,7 +19,7 @@
     <h1>Robots Móviles Autónomos - SIU039</h1>
 
     <div class="row">
-        <div class="column">
+        <div class="column" style="border-right: solid 5px rgb(200,200,200);">
 
             <!-- controls  -->
             <p style="text-align: center;"><b>Controls</b></p>
@@ -26,9 +29,9 @@
                 <button id="forward_right"  onclick="forward_right()"  >&#8599</button>
             </div>
             <div class="btn-row" style="text-align: center;">
-                <button id="turnright"      onclick="turnright()"     >&#8635</button>
-                <button id="stop"           onclick="stop()"          >&#9646&#9646</button>
                 <button id="turnleft"       onclick="turnleft()"      >&#8634</button>
+                <button id="stop"           onclick="stop()"          >&#9632</button>
+                <button id="turnright"      onclick="turnright()"     >&#8635</button>
             </div>
             <div class="btn-row" style="text-align: center;">
                 <button id="backward_left"  onclick="backward_left()" >&#8601</button>
@@ -36,25 +39,57 @@
                 <button id="backward_right" onclick="backward_right()">&#8600</button>
             </div>
 
-            <p style="text-align: center;"><b>Velocity percentage</b></p>
+            <p><b>Velocity percentage:</b> 
+            <span style="display: inline-block;" id="pctg_label">50%</span>
+            <!-- <span id="pctg_label" : black;">50%</span></p> -->
             <div>
-                <input type="range" min="0" max="200" value="0"
+                <input type="range" min="0" max="100" value="50"
                 class="slider" id="vel_pctg"
                 onchange="get_pctg()" oninput="get_pctg()">
             </div>
-            <p id="pctg_label" style="text-align: center";> 100 %</p>
+            <!-- <p id="pctg_label" style="text-align: center";> 50 %</p> -->
         </div>
 
-        <div class="column2" style="background-color:#aaa;">
+        <div class="column2">
             <p style="text-align: center;">
                 <b>Turtlebot image</b>
                 <img id="open_info" src="src/informacion.png" width=18 onclick="get_info()"
                 style="cursor: pointer;"> 
             </p>
-            <p style="text-align: center;">Topic: <span id="topic_name">name</span></p>
-            <img src="http://0.0.0.0:8080/stream?topic=/camera/color/image_raw&quality=90&default_transport=compressed"
-            width=320 alt="Turtlebot image">
-            <!-- <img src="src/paloma.jpeg" width=320 alt="Turtlebot image"> -->
+            <select id="dropdown" style="width: 320px;"">
+                <!-- TODO: reset names -->
+                <option value="/camera/depth/image">Depth image</option>
+                <option value="/camera/depth/image_raw">Depth image (raw)</option>
+                <option value="/camera/depth_registered/hw_registered/image_rect">Depth (image rect)</option>
+                <option value="/camera/depth_registered/image">Depth image (registered)</option>
+                <option value="/camera/depth_registered/image_raw">Depth image (raw, registered)</option>
+                <option value="/camera/depth_registered/hw_registered/image_rect_raw">Depth image (raw, rect, registered)</option>
+                <option value="/camera/ir/image">Infrared image</option>
+                <option value="/camera/depth/image_rect_raw">Depth image (raw, rect</option>
+                <option value="/camera/depth/image_rect">Depth image (rect)</option>
+                <option value="/camera/rgb/image_rect_color">RGB image (rect)</option>
+                <option value="/camera/rgb/image_raw" >RGB image (raw)</option>
+
+
+            </select>
+            <br><br>
+            <img id="cam" src="http://0.0.0.0:8080/stream?topic=/camera/rgb/image_raw&quality=1"
+            width=320 alt="Turtlebot" onerror="this.src='src/error.png';">
+            <br><br>
+            <div>
+                <div style="display: inline-block; font-weight: bold; padding: 2px; ">
+                    <p>Quality</p>
+                </div>
+                <div class="col-3" style="color: rgb(49, 100, 125);font-weight: bold;">
+                    <p class="mySel" id="Low" onclick="setQuality(5)">Low</p>
+                </div>
+                <div class="col-3">
+                    <p class="mySel" id="Medium" onclick="setQuality(50)">Medium</p>
+                </div>
+                <div class="col-3">
+                    <p class="mySel" id="High" onclick="setQuality(100)">High</p>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -84,18 +119,10 @@
                     </a>
                 </li>
                 <li>
-                    Select the image topic to show (it must be the same as the
-                    url specified in the html file.)<br>
-                    <ul>
-                        <li>/camera/rgb/image_rect_color</li>
-                        <li>/camera/depth_registered/image</li>
-                    </ul>
+                    Select the image topic to show.<br>
                 </li>
                 <li>
-                    Optionally, modify image parameters (quality must be low to 
-                    achieve a fluent streaming). For example:<br>
-                    <a href="http://0.0.0.0:8080/stream?topic=/camera/rgb/image_rect_color&quality=10" style="text-align: center;">
-                        <ins>http://0.0.0.0:8080/stream?topic=/camera/rgb/image_rect_color&quality=10</ins>
+                    Modify the image quality if you can't get a fluent stream.
                 </li>
             </ol>
         </div>

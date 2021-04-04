@@ -45,14 +45,14 @@ button {
     margin-top: 5px;
 }
 
-.slider::-webkit-slider-thumb {
+/* .slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     width: 25px;
     height: 45px;
     background: black;
     cursor: pointer;
-}
+} */
 
 .btn-row button {
     background-color: rgb(49, 100, 125);
@@ -79,20 +79,18 @@ button {
 
 .column {
     background-color: gainsboro;
-    border:black;
-    border-width: 2px;
-    /* border-color: black; */
     float: left;
     width: 250px;
     padding: 10px;
-    height: 450px;
+    height: 390px;
 }
 
 .column2 {
+    background-color: gainsboro;
     float: left;
     width:auto;
     padding: 10px;
-    height: 450px;
+    height: 390px;
 }
 
 .row:after {
@@ -115,12 +113,12 @@ button {
 }
 
 .modal-content {
-    background-color: #fefefe;
+    background-color: rgb(254, 254, 254, 0.9);
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
-    height: 600px;
+    height: 450px;
 }
 
 .modal-body {
@@ -167,3 +165,25 @@ li a {
     padding: 16px;
     text-decoration: none;
 } */
+
+.col-3 {
+    display: inline-block;
+    padding: 1px;
+    cursor:pointer;
+    /* font-weight: bold; */
+    
+}
+
+.mySel {
+    background-color: #888;
+    width: 75px;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    /* padding: 5px; */
+    font-size: 15px;
+    margin-right: -6px;
+    border: 2px;
+    border-style: solid;
+
+}
